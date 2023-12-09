@@ -3,7 +3,6 @@
 namespace App\Database\Seeds;
 
 use App\Entities\Connection;
-use App\Entities\User;
 use App\Models\ConnectionModel;
 use App\Models\UserModel;
 use CodeIgniter\Database\Seeder;
@@ -37,7 +36,7 @@ class ConnectionSeeder extends Seeder
                     }
 
                     $connectionModel->insert(new Connection([
-                        "follower_user_id" => $user->id,
+                        "follower_user_id"  => $user->id,
                         "following_user_id" => $targetUser->id,
                     ]));
 

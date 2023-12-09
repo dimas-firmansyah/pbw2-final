@@ -5,21 +5,25 @@ namespace App\Entities;
 use App\Models\UserModel;
 use CodeIgniter\Entity\Entity;
 
+/**
+ * @property int $following_user_id
+ * @property int $follower_user_id
+ */
 class Connection extends Entity
 {
     protected $datamap = [];
     protected $dates   = ['created_at', 'updated_at', 'deleted_at'];
     protected $casts   = [];
 
-    public function getFollowing(): User {
-        /** @var UserModel */
-        $user = model(UserModel::class);
-        return $user->find($this->following_user_id);
+    public function getFollowing(): User
+    {
+        return model(UserModel::class)
+            ->find($this->following_user_id);
     }
 
-    public function getFollower(): User {
-        /** @var UserModel */
-        $user = model(UserModel::class);
-        return $user->find($this->follower_user_id);
+    public function getFollower(): User
+    {
+        return model(UserModel::class)
+            ->find($this->follower_user_id);
     }
 }

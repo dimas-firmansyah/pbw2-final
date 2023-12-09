@@ -3,10 +3,18 @@
 namespace App\Entities;
 
 use App\Models\ConnectionModel;
+use Config\Auth;
 use Exception;
+use Myth\Auth\Models\GroupModel;
+use Myth\Auth\Models\PermissionModel;
 use Myth\Auth\Password;
 use RuntimeException;
 
+/**
+ * @property int $id
+ * @property string $username
+ * @property string $email
+ */
 class User extends \Myth\Auth\Entities\User
 
 {
@@ -32,9 +40,9 @@ class User extends \Myth\Auth\Entities\User
      * when they are accessed.
      */
     protected $casts = [
-        'username' => 'string',
-        'email' => 'string',
-        'active' => 'boolean',
+        'username'         => 'string',
+        'email'            => 'string',
+        'active'           => 'boolean',
         'force_pass_reset' => 'boolean',
     ];
 
@@ -156,7 +164,7 @@ class User extends \Myth\Auth\Entities\User
     public function generateResetHash()
     {
         $this->attributes['reset_hash'] = bin2hex(random_bytes(16));
-        $this->attributes['reset_expires'] = date('Y-m-d H:i:s', time() + config('Auth')->resetTime);
+        $this->attributes['reset_expires'] = date('Y-m-d H:i:s', time() + config(Auth::class)->resetTime);
 
         return $this;
     }

@@ -30,7 +30,7 @@ class Filters extends BaseConfig
         'secureheaders' => SecureHeaders::class,
         'login'         => LoginFilter::class,
         'role'          => RoleFilter::class,
-        'permission'    => PermissionFilter::class
+        'permission'    => PermissionFilter::class,
     ];
 
     /**
@@ -46,7 +46,7 @@ class Filters extends BaseConfig
             // 'csrf',
             // 'invalidchars',
         ],
-        'after' => [
+        'after'  => [
             'toolbar',
             // 'honeypot',
             // 'secureheaders',
@@ -75,7 +75,7 @@ class Filters extends BaseConfig
      */
     public array $filters = [
         'login' => [
-            'before' => ['home']
-        ]
+            'before' => ['home', 'api/*', 'profile/*'],
+        ],
     ];
 }
