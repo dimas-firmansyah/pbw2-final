@@ -2,17 +2,18 @@
 
 namespace App\Models;
 
+use App\Entities\Profile;
 use CodeIgniter\Model;
 
 class ProfileModel extends Model
 {
     protected $table            = 'profiles';
     protected $primaryKey       = 'id';
-    protected $useAutoIncrement = true;
-    protected $returnType       = 'array';
+    protected $useAutoIncrement = false;
+    protected $returnType       = Profile::class;
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = ['id', 'display_name', 'avatar'];
 
     // Dates
     protected $useTimestamps = false;

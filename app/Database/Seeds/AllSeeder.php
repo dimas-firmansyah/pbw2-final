@@ -9,6 +9,7 @@ class AllSeeder extends Seeder
     public function run()
     {
         $this->call('UserSeeder');
+        $this->call('ProfileSeeder');
         $this->call('ConnectionSeeder');
         $this->call('StatusSeeder');
     }

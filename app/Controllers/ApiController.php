@@ -23,10 +23,14 @@ class ApiController extends BaseController
         }
 
         $query = "select status.*,
-                         users.username
+                         users.username,
+                         profiles.display_name,
+                         profiles.avatar
                   from status
                        left join users
                             on status.user_id = users.id
+                       left join profiles
+                            on profiles.id = users.id
                        left join connections
                             on connections.follower_user_id=?
                            and connections.following_user_id=users.id

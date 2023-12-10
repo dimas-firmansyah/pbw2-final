@@ -12,6 +12,8 @@ class ConnectionSeeder extends Seeder
 {
     public function run()
     {
+        echo 'Seeding Connections' . PHP_EOL;
+
         $faker = Factory::create();
         $faker->seed(1234);
 
@@ -35,10 +37,10 @@ class ConnectionSeeder extends Seeder
                         continue;
                     }
 
-                    $connectionModel->insert(new Connection([
-                        "follower_user_id"  => $user->id,
-                        "following_user_id" => $targetUser->id,
-                    ]));
+                    $connection = Connection::create($user->id, $targetUser->id);
+                    echo "  {$user->username} -> {$targetUser->username}" . PHP_EOL;
+
+                    $connectionModel->save($connection);
 
                     $followed[$targetUser->username] = true;
                     break;

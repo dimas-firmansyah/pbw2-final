@@ -13,6 +13,8 @@ class StatusSeeder extends Seeder
 {
     public function run()
     {
+        echo 'Seeding Status' . PHP_EOL;
+        
         $faker = Factory::create();
         $faker->seed(1234);
 

@@ -81,4 +81,5 @@ function activeClass(string $value)
   <div class="flex-grow-1 d-flex flex-column border-start border-end">
     <?php $view->renderSection('slot');?>
   </div>
+</div>
 <?php $view->endSection();?>

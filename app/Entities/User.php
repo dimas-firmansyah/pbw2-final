@@ -3,8 +3,11 @@
 namespace App\Entities;
 
 use App\Models\ConnectionModel;
+use App\Models\ProfileModel;
+use App\Models\UserModel;
 use Config\Auth;
 use Exception;
+use Myth\Auth\Entities\User as AuthUser;
 use Myth\Auth\Models\GroupModel;
 use Myth\Auth\Models\PermissionModel;
 use Myth\Auth\Password;
@@ -15,8 +18,7 @@ use RuntimeException;
  * @property string $username
  * @property string $email
  */
-class User extends \Myth\Auth\Entities\User
-
+class User extends AuthUser
 {
     /**
      * Maps names used in sets and gets against unique
@@ -60,15 +62,31 @@ class User extends \Myth\Auth\Entities\User
      */
     protected $roles = [];
 
+    public static function get(): ?User {
+        return model(UserModel::class)->find(user_id());
+    }
+
+    public function getProfile(): Profile
+    {
+        $profileModel = model(ProfileModel::class);
+
+        /** @var ?Profile */
+        $profile = $profileModel->find($this->id);
+
+        if ($profile == null) {
+            $profileId = $profileModel->insert(Profile::create($this->id, $this->username, null));
+            $profile = $profileModel->find($profileId);
+        }
+
+        return $profile;
+    }
+
     /**
      * @return Connection[]
      */
-    public function getFollowing()
+    public function getFollowing(): array
     {
-        /** @var ConnectionModel */
-        $model = model(ConnectionModel::class);
-
-        return $model
+        return model(ConnectionModel::class)
             ->where('follower_user_id', $this->id)
             ->findAll();
     }
@@ -76,12 +94,9 @@ class User extends \Myth\Auth\Entities\User
     /**
      * @return Connection[]
      */
-    public function getFollowers()
+    public function getFollowers(): array
     {
-        /** @var ConnectionModel */
-        $model = model(ConnectionModel::class);
-
-        return $model
+        return model(ConnectionModel::class)
             ->where('following_user_id', $this->id)
             ->findAll();
     }

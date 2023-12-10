@@ -10,6 +10,16 @@ class CreateTables extends Migration
     {
         $forge = $this->forge;
 
+        // --
+        $forge->addField([
+            'id'           => ['type' => 'int', 'constraint' => 11, 'unsigned' => true],
+            'display_name' => ['type' => 'varchar', 'constraint' => 30],
+            'avatar'       => ['type' => 'varchar', 'constraint' => 64, 'null' => true],
+        ])
+            ->addKey('id', true)
+            ->addForeignKey('id', 'users', 'id', '', 'CASCADE')
+            ->createTable('profiles');
+
         // ---
 
         $forge->addField([
@@ -45,6 +55,7 @@ class CreateTables extends Migration
     {
         $forge = $this->forge;
 
+        $forge->dropTable('profiles', true);
         $forge->dropTable('connections', true);
         $forge->dropTable('status', true);
     }

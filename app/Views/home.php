@@ -1,11 +1,23 @@
-<?php require __DIR__ . '/_types.php'?>
+<?php
+
+require __DIR__ . '/_types.php';
+
+use App\Entities\User;
+
+?>
 
 <?php $view->extend('templates/nav');?>
+
+<?php $view->section('head');?>
+<link rel="stylesheet" href="/css/status.css">
+<?php $view->endSection();?>
+
 
 <?php $view->section('slot');?>
 <div class="flex-grow-1" id="main">
   <div class="p-3 d-flex gap-3 border-bottom" id="status-input-container">
     <div class="c-status-avatar flex-shrink-0 mb-auto">
+      <img src="<?=User::get()->getProfile()->getAvatarUrl();?>" alt="">
     </div>
 
     <div class="d-flex flex-column flex-grow-1 gap-2">
@@ -24,7 +36,10 @@
 
   <div class="d-flex flex-column" id="status-container"></div>
 </div>
+<?php $view->endSection();?>
 
+
+<?php $view->section('footer');?>
 <script src="/js/status.js"></script>
 <script>
     const statusInput = $("#status-input");
@@ -34,6 +49,7 @@
     const newStatusAnchor = $("#new-status-anchor");
 
     function fetchStatus(idBefore) {
+        console.log(idBefore);
         $.post("/api/get_home_status", {idBefore}, statusResponseHandler);
     }
 
@@ -59,7 +75,7 @@
     });
 
     $(window).scroll(function () {
-        if ($(window).scrollTop() + $(window).height() === $(document).height()) {
+        if ($(window).scrollTop() + window.innerHeight === $(document).height()) {
             fetchStatus(earliestStatusId)
         }
     });

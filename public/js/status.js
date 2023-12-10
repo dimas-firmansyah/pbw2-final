@@ -52,16 +52,14 @@ function createStatusDiv(data) {
   const date = deleted ? null : parseMysqlDateTime(created_at);
   const dateString = deleted ? null : formatStatusDate(date);
 
-  // language=html
-  const updatedIcon = updated_at === null ? "" : `
+  const updatedIcon = updated_at === created_at ? "" : /*html*/`
       <i class="fa-solid fa-xs fa-pen"></i>`;
 
-  // language=html
-  const inner = !deleted ? `
+  const inner = !deleted ? /*html*/`
       <div class="d-flex flex-column flex-shrink-0">
         <div class="c-thread-line c-hidden" id="thread-line-before"></div>
         <a href="/profile/${username}" class="c-status-avatar">
-          <img src="/assets/media/avatar/${avatar}" alt="">
+          <img src="/img/avatar/${avatar}" alt="">
         </a>
         <div class="c-thread-line c-hidden flex-grow-1" id="thread-line-after"></div>
       </div>
@@ -71,7 +69,7 @@ function createStatusDiv(data) {
           <div class="d-flex gap-2">
             <a href="/profile/${username}"
                class="link-body-emphasis link-underline link-underline-opacity-0 link-underline-opacity-100-hover fw-bold">
-              ${(display_name)}
+              ${escapeHtml(display_name)}
             </a>
             <div class="font-monospace text-body-secondary">@${username}</div>
             <div class="text-body-tertiary flex-grow-1">${dateString} ${updatedIcon}</div>
@@ -92,31 +90,30 @@ function createStatusDiv(data) {
             </button>
           </div>
         </div>
-      </div>` : `
+      </div>` : /*html*/`
       <div class="p-3 text-center flex-grow-1">
         Status Deleted
       </div>`;
 
-  // language=html
-  return `
+  return /*html*/`
       <div class="c-status px-3 d-flex gap-3 border-bottom" id="status-${id}">
         ${inner}
       </div>`;
 }
 
-function setupStatusDiv(statusId, statusContent) {
-  const status = $(`#status-${statusId}`);
+function setupStatusDiv(id, content) {
+  const status = $(`#status-${id}`);
 
   status.click(function () {
     if (hasTextSelected()) return;
 
-    window.location.href = `/status/${statusId}`;
+    window.location.href = `/status/${id}`;
   });
 
-  status.find("#status-content").text(statusContent);
+  status.find("#status-content").text(content);
 
   status.find(".c-status-like").click(function () {
-    likeButtonClick(statusId);
+    likeButtonClick(id);
   });
 
   status.find("button").click(function (e) {
@@ -125,15 +122,13 @@ function setupStatusDiv(statusId, statusContent) {
 }
 
 function statusResponseHandler(data) {
-  console.log(data);
-
   for (let i = 0; i < data.length; i++) {
-    const { status_id, status_content } = data[i];
+    const { id, content } = data[i];
     const statusDiv = createStatusDiv(data[i]);
 
     statusContainer.append(statusDiv);
-    setupStatusDiv(status_id, status_content);
+    setupStatusDiv(id, content);
 
-    earliestStatusId = status_id;
+    earliestStatusId = id;
   }
 }

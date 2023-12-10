@@ -126,3 +126,5 @@ nb-configuration.xml
 /phpunit*.xml
 /.phpunit.*.cache
 
+public/img/avatar/*
+!public/img/avatar/index.html

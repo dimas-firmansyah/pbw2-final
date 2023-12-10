@@ -15,6 +15,14 @@ class Connection extends Entity
     protected $dates   = ['created_at', 'updated_at', 'deleted_at'];
     protected $casts   = [];
 
+    public static function create(int $following_user_id, int $follower_user_id): Connection
+    {
+        return new Connection([
+            'following_user_id' => $following_user_id,
+            'follower_user_id'  => $follower_user_id,
+        ]);
+    }
+
     public function getFollowing(): User
     {
         return model(UserModel::class)
