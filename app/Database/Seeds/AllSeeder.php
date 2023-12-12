@@ -12,5 +12,6 @@ class AllSeeder extends Seeder
         $this->call('ProfileSeeder');
         $this->call('ConnectionSeeder');
         $this->call('StatusSeeder');
+        $this->call('EngagementSeeder');
     }
 }

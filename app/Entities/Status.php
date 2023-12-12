@@ -49,4 +49,14 @@ class Status extends Entity
             ->where('status_id', $this->id)
             ->countAllResults();
     }
+
+    public function getEngagementFor(int $user_id): ?Engagement
+    {
+        return model(EngagementModel::class)
+            ->where([
+                'status_id' => $this->id,
+                'user_id'   => $user_id,
+            ])
+            ->first();
+    }
 }

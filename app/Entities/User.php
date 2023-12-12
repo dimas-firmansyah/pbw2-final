@@ -62,6 +62,9 @@ class User extends AuthUser
      */
     protected $roles = [];
 
+    /**
+     * 
+     */
     public static function get(): ?User {
         return model(UserModel::class)->find(user_id());
     }

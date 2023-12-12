@@ -17,6 +17,14 @@ class Engagement extends Entity
     protected $dates   = ['created_at', 'updated_at', 'deleted_at'];
     protected $casts   = [];
 
+    public static function create(int $user_id, int $status_id): Engagement
+    {
+        return new Engagement([
+            'user_id'   => $user_id,
+            'status_id' => $status_id,
+        ]);
+    }
+
     public function getStatus(): Status
     {
         return model(StatusModel::class)->find($this->status_id);

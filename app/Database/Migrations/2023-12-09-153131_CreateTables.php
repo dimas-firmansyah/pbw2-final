@@ -10,7 +10,8 @@ class CreateTables extends Migration
     {
         $forge = $this->forge;
 
-        // --
+        // ---
+
         $forge->addField([
             'id'           => ['type' => 'int', 'constraint' => 11, 'unsigned' => true],
             'display_name' => ['type' => 'varchar', 'constraint' => 30],
@@ -30,6 +31,7 @@ class CreateTables extends Migration
             ->addKey('id', true)
             ->addForeignKey('follower_user_id', 'users', 'id', '', 'CASCADE')
             ->addForeignKey('following_user_id', 'users', 'id', '', 'CASCADE')
+            ->addUniqueKey(['follower_user_id', 'following_user_id'])
             ->createTable('connections');
 
         // ---
@@ -49,6 +51,17 @@ class CreateTables extends Migration
             ->createTable('status');
 
         // ---
+
+        $forge->addField([
+            'id'        => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
+            'user_id'   => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'null' => true],
+            'status_id' => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'null' => true],
+        ])
+            ->addKey('id', true)
+            ->addForeignKey('user_id', 'users', 'id', '', 'CASCADE')
+            ->addForeignKey('status_id', 'status', 'id', '', 'CASCADE')
+            ->addUniqueKey(['user_id', 'status_id'])
+            ->createTable('engagements');
     }
 
     public function down()

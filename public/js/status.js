@@ -5,16 +5,16 @@ let earliestStatusId = 0;
 
 function likeButtonClick(statusId) {
   $.post("/api/like", {
-    status_id: statusId
+    statusId
   }, function (data) {
     const {
       liked,
-      new_like_count
+      newLikeCount
     } = data;
 
-    if (new_like_count !== undefined) {
+    if (newLikeCount !== undefined) {
       const likeCounter = $(`#status-${statusId} #like-count`);
-      likeCounter.html(new_like_count);
+      likeCounter.html(newLikeCount);
 
       const heart = $(`#status-${statusId} #heart`);
       if (liked) heart
@@ -44,11 +44,11 @@ function createStatusDiv(data) {
     avatar,
     like_count,
     child_count,
-    liked_by_client,
+    liked,
     deleted
   } = data;
 
-  const heartStyle = liked_by_client ? "fa-solid" : "fa-regular";
+  const heartStyle = liked === "1" ? "fa-solid" : "fa-regular";
   const date = deleted ? null : parseMysqlDateTime(created_at);
   const dateString = deleted ? null : formatStatusDate(date);
 

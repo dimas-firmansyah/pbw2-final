@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Entities\Engagement;
 use CodeIgniter\Model;
 
 class EngagementModel extends Model
@@ -9,10 +10,10 @@ class EngagementModel extends Model
     protected $table            = 'engagements';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
-    protected $returnType       = 'array';
+    protected $returnType       = Engagement::class;
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = ['user_id', 'status_id'];
 
     // Dates
     protected $useTimestamps = false;
@@ -37,4 +38,5 @@ class EngagementModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
 }

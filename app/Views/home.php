@@ -49,7 +49,6 @@ use App\Entities\User;
     const newStatusAnchor = $("#new-status-anchor");
 
     function fetchStatus(idBefore) {
-        console.log(idBefore);
         $.post("/api/get_home_status", {idBefore}, statusResponseHandler);
     }
 

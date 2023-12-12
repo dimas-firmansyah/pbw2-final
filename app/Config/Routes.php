@@ -9,11 +9,12 @@ use CodeIgniter\Router\RouteCollection;
 $views = [
     '/' => 'root',
     'home',
-    'profile/(:segment)', 'profile/$1',
+    'profile/(:segment)' => 'profile/$1',
 ];
 
 $api = [
-    'get_home_status'
+    'get_home_status',
+    'like'
 ];
 
 foreach ($views as $key => $val) {
