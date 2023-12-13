@@ -3,13 +3,15 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Entities\Status;
+use App\Models\StatusModel;
 
 class ViewController extends BaseController
 {
     private function view(string $viewName, string $pageTitle, array $extra = [])
     {
         return view($viewName, [
-            'viewName' => $viewName,
+            'viewName'  => $viewName,
             'pageTitle' => $pageTitle,
             ...$extra,
         ]);
@@ -28,5 +30,15 @@ class ViewController extends BaseController
     public function profile(string $username)
     {
         return $this->view('profile', $username);
+    }
+
+    public function status(int $id)
+    {
+        /** @var Status */
+        $status = model(StatusModel::class)->find($id);
+
+        return $this->view('status', 'Status', [
+            'status'    => $status
+        ]);
     }
 }

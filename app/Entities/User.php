@@ -63,9 +63,10 @@ class User extends AuthUser
     protected $roles = [];
 
     /**
-     * 
+     *
      */
-    public static function get(): ?User {
+    public static function get(): ?User
+    {
         return model(UserModel::class)->find(user_id());
     }
 
@@ -77,11 +78,21 @@ class User extends AuthUser
         $profile = $profileModel->find($this->id);
 
         if ($profile == null) {
-            $profileId = $profileModel->insert(Profile::create($this->id, $this->username, null));
+            $profileId = $profileModel->insert(Profile::create($this->id, $this->username, null, null));
             $profile = $profileModel->find($profileId);
         }
 
         return $profile;
+    }
+
+    public function follows(int $user_id): bool
+    {
+        return model(ConnectionModel::class)
+            ->where([
+                'follower_user_id'  => $this->id,
+                'following_user_id' => $user_id,
+            ])
+            ->countAllResults() > 0;
     }
 
     /**

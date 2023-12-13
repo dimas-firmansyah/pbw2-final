@@ -7,12 +7,16 @@ use App\Models\ProfileModel;
 use App\Models\UserModel;
 use CodeIgniter\Database\Seeder;
 use CodeIgniter\Files\File;
+use Faker\Factory;
 
 class ProfileSeeder extends Seeder
 {
     public function run()
     {
         echo 'Seeding Profiles' . PHP_EOL;
+
+        $faker = Factory::create();
+        $faker->seed(1234);
 
         /** @var User[] */
         $users = model(UserModel::class)->findAll();
@@ -26,6 +30,7 @@ class ProfileSeeder extends Seeder
 
             $profile = $user->getProfile();
             $profile->uploadAvatar(new File($tempPath));
+            $profile->bio = $faker->text(160);
             model(ProfileModel::class)->save($profile);
         }
     }

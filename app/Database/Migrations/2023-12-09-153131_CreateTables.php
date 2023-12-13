@@ -16,6 +16,7 @@ class CreateTables extends Migration
             'id'           => ['type' => 'int', 'constraint' => 11, 'unsigned' => true],
             'display_name' => ['type' => 'varchar', 'constraint' => 30],
             'avatar'       => ['type' => 'varchar', 'constraint' => 64, 'null' => true],
+            'bio'          => ['type' => 'varchar', 'constraint' => 160, 'null' => true],
         ])
             ->addKey('id', true)
             ->addForeignKey('id', 'users', 'id', '', 'CASCADE')
@@ -71,5 +72,6 @@ class CreateTables extends Migration
         $forge->dropTable('profiles', true);
         $forge->dropTable('connections', true);
         $forge->dropTable('status', true);
+        $forge->dropTable('engagements', true);
     }
 }

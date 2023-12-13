@@ -9,6 +9,7 @@ use Config\App;
 /**
  * @property int $id
  * @property string $display_name
+ * @property string $bio
  */
 class Profile extends Entity
 {
@@ -16,17 +17,29 @@ class Profile extends Entity
     protected $dates   = ['created_at', 'updated_at', 'deleted_at'];
     protected $casts   = [];
 
-    public static function create(int $id, string $displayName, ?string $avatar): Profile
+    public static function create(int $id, string $displayName, ?string $avatar, ?string $bio): Profile
     {
         return new Profile([
             'id'           => $id,
             'display_name' => $displayName,
             'avatar'       => $avatar,
+            'bio'          => $bio,
         ]);
     }
 
-    public static function resolveAvatarUrl(string $avatar): string {
+    public static function resolveAvatarUrl(string $avatar): string
+    {
         return config(App::class)->baseURL . 'img/avatar/' . $avatar;
+    }
+
+    public function getSaveDisplayName(): string
+    {
+        return htmlspecialchars($this->display_name);
+    }
+
+    public function getSaveBio(): string
+    {
+        return htmlspecialchars($this->bio);
     }
 
     public function getAvatarUrl(): string

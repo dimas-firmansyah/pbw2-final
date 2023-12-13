@@ -22,40 +22,53 @@ class ApiController extends BaseController
             $idBefore = PHP_INT_MAX;
         }
 
-        $query = "select status.*,
-                         users.username,
-                         profiles.display_name,
-                         profiles.avatar,
-                         count(distinct engagements.id) as like_count,
-                         count(distinct child_status.id) as child_count,
-                         count(distinct liked.id) as liked
-                  from status
-                       left join users
-                            on status.user_id = users.id
-                       left join profiles
-                            on profiles.id = users.id
-                       left join connections
-                            on connections.follower_user_id=?
-                           and connections.following_user_id=users.id
-                           and connections.following_user_id=status.user_id
-                       left join engagements
-                            on status.id=engagements.status_id
-                       left join status child_status
-                            on child_status.parent_status_id=status.id
-                       left join engagements liked
-                            on status.id=liked.status_id
-                           and liked.user_id=?
-                  where status.id<?
-                    and status.parent_status_id is null
-                    and (connections.id is not null
-                         or status.user_id=?)
-                  group by status.id
-                  order by status.id desc
-                  limit 25";
+        $statusModel = model(StatusModel::class);
+        $query = $statusModel->getDetailsBuilder()
+            ->join('connections', <<<SQL
+                    connections.follower_user_id = ?
+                and connections.following_user_id = users.id
+                and connections.following_user_id = status.user_id
+                SQL,'left',false)
+            ->where(<<<SQL
+                status.id<?
+                  and status.parent_status_id is null
+                  and (connections.id is not null
+                       or status.user_id=?)
+                SQL)
+            ->groupBy('status.id')
+            ->orderBy('status.id','DESC')
+            ->limit(25)
+            ->getCompiledSelect();
 
-        $result = model(StatusModel::class)->db->query($query, [$userId, $userId, $idBefore, $userId]);
-
+        $result = $statusModel->db->query($query, [$userId, $userId, $idBefore, $userId]);
         return $this->respond($result->getResultArray());
+    }
+
+    public function get_status_ancestor()
+    {
+        $userId = user_id();
+        $id = $this->request->getVar('id');
+
+        $result = [];
+        $statusModel = model(StatusModel::class);
+
+        $query = $statusModel->getDetailsBuilder()
+            ->where('status.id=?')
+            ->limit(1)
+            ->getCompiledSelect();
+
+        $status = $statusModel->db
+            ->query($query, [$userId, $id])
+            ->getFirstRow();
+
+        while ($status->parent_status_id != null) {
+            $status = $statusModel->db
+                ->query($query, [$userId, $status->parent_status_id])
+                ->getFirstRow();
+            $result[] = $status;
+        }
+
+        return $this->respond($result);
     }
 
     public function like()

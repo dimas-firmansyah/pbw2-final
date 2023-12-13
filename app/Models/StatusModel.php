@@ -38,4 +38,35 @@ class StatusModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    public function getDetailsBuilder()
+    {
+        return $this->builder()
+            ->select(<<<SQL
+                status.*,
+                users.username,
+                profiles.display_name,
+                profiles.avatar,
+                count(distinct engagements.id) as like_count,
+                count(distinct child_status.id) as child_count,
+                count(distinct liked.id) as liked
+                SQL)
+            ->join('users',<<<SQL
+                status.user_id = users.id
+                SQL,'left')
+            ->join('profiles',<<<SQL
+                profiles.id = users.id
+                SQL,'left')
+            
+            ->join('engagements',<<<SQL
+                status.id = engagements.status_id
+                SQL,'left')
+            ->join('status child_status',<<<SQL
+                child_status.parent_status_id = status.id
+                SQL,'left')
+            ->join('engagements liked',<<<SQL
+                    status.id = liked.status_id
+                and liked.user_id = ?
+                SQL,'left',false);
+    }
 }

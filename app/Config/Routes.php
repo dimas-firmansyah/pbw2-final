@@ -7,14 +7,16 @@ use CodeIgniter\Router\RouteCollection;
  */
 
 $views = [
-    '/' => 'root',
+    '/'                  => 'root',
     'home',
+    'status/(:num)'      => 'status/$1',
     'profile/(:segment)' => 'profile/$1',
 ];
 
 $api = [
     'get_home_status',
-    'like'
+    'get_status_ancestor',
+    'like',
 ];
 
 foreach ($views as $key => $val) {

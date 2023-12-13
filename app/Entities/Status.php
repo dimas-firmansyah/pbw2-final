@@ -3,6 +3,7 @@
 namespace App\Entities;
 
 use App\Models\EngagementModel;
+use App\Models\UserModel;
 use CodeIgniter\Entity\Entity;
 use CodeIgniter\I18n\Time;
 
@@ -41,6 +42,16 @@ class Status extends Entity
         $this->content = null;
         $this->deleted_at = Time::now();
         return $this;
+    }
+
+    public function getOwner(): ?User
+    {
+        return $this->isDeleted() ? null : model(UserModel::class)->find($this->user_id);
+    }
+
+    public function getSaveContent(): string
+    {
+        return htmlspecialchars($this->content);
     }
 
     public function getLikeCount(): int
