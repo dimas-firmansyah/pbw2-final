@@ -52,14 +52,14 @@ postEditCancelButton.click(function () {
 
 postEditSubmitButton.click(function () {
   $.post("/api/edit_status", {
-    status_id: mainStatusData.id,
+    statusId: mainStatusData.id,
     content: editInput.val().trim()
   }, function (data) {
-    const { status_content, updated_at } = data;
+    const { content, updated_at } = data;
     statusUpdatedAt = formatStatusDate(parseMysqlDateTime(updated_at));
 
     updateMainStatusTime();
-    mainStatusContent.text(status_content);
+    mainStatusContent.text(content);
     postEditCancelButton.click();
   });
 });
@@ -156,7 +156,8 @@ $("#delete-status-modal #confirm-button").click(function () {
   $.post("/api/delete_status", {
     statusId: mainStatusData.id
   }, function () {
-    window.location.reload();
+    console.log("sss");
+    location.reload();
   });
 });
 

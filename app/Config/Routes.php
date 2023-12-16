@@ -19,6 +19,7 @@ $api = [
     'get_reply',
     'post_status',
     'post_reply',
+    'edit_status',
     'like',
     'delete_status',
 ];

@@ -122,13 +122,35 @@ class ApiController extends BaseController
         return $this->_post_status($parentStatusId);
     }
 
+    public function edit_status()
+    {
+        $userId = user_id();
+        $statusId = $this->request->getVar('statusId');
+        $content = $this->request->getVar('content');
+
+        $statusModel = model(StatusModel::class);
+        $status = $statusModel->find($statusId);
+
+        if ($status->user_id === $userId) {
+          $status->content = $content;
+          $statusModel->save($status);
+        }
+
+        $query = $statusModel->getDetailsBuilder()
+            ->where('status.id', $statusId)
+            ->getCompiledSelect();
+
+        $result = $statusModel->runDetailsQuery($query, $userId);
+        return $this->respond($result->getFirstRow());
+    }
+
     public function delete_status()
     {
         $statusId = $this->request->getVar('statusId');
 
         model(StatusModel::class)->delete($statusId);
-        
-        return $this->respond();
+
+        return $this->respond([]);
     }
 
     public function like()

@@ -62,7 +62,7 @@ $liked = $status->getEngagementFor(user_id()) !== null;
         </div>
         <div class="text-break fs-5" id="main-status-content"><?=$status->getSaveContent()?></div>
 
-          <?php if ($liked) {?>
+          <?php if ($statusOwner->id === $client->id) {?>
             <div class="d-flex flex-column flex-grow-1 gap-2 pb-3 border-bottom d-none" id="edit-status-container">
               <div>
               <textarea name="status-input" id="edit-input" rows="3" maxlength="280"
