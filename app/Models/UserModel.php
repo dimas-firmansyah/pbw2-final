@@ -8,7 +8,9 @@ use Myth\Auth\Authorization\GroupModel;
 use Myth\Auth\Entities\User;
 
 /**
- * @method User|null first()
+ * @method ?User first()
+ * @method ?User find($id = null)
+ * @method User[] findAll()
  */
 class UserModel extends Model
 {

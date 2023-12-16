@@ -5,6 +5,11 @@ namespace App\Models;
 use App\Entities\Engagement;
 use CodeIgniter\Model;
 
+/**
+ * @method ?Engagement first()
+ * @method ?Engagement find($id = null)
+ * @method Engagement[] findAll()
+ */
 class EngagementModel extends Model
 {
     protected $table            = 'engagements';

@@ -74,7 +74,6 @@ class User extends AuthUser
     {
         $profileModel = model(ProfileModel::class);
 
-        /** @var ?Profile */
         $profile = $profileModel->find($this->id);
 
         if ($profile == null) {

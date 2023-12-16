@@ -5,6 +5,11 @@ namespace App\Models;
 use App\Entities\Status;
 use CodeIgniter\Model;
 
+/**
+ * @method ?Status first()
+ * @method ?Status find($id = null)
+ * @method Status[] findAll()
+ */
 class StatusModel extends Model
 {
     protected $table            = 'status';

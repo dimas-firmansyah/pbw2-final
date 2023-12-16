@@ -101,7 +101,6 @@ class ApiController extends BaseController
         $userId = user_id();
         $statusId = $this->request->getVar('statusId');
 
-        /** @var Status */
         $status = model(StatusModel::class)->find($statusId);
 
         $engagementModel = model(EngagementModel::class);

@@ -5,6 +5,11 @@ namespace App\Models;
 use App\Entities\Connection;
 use CodeIgniter\Model;
 
+/**
+ * @method ?Connection first()
+ * @method ?Connection find($id = null)
+ * @method Connection[] findAll()
+ */
 class ConnectionModel extends Model
 {
     protected $table            = 'connections';

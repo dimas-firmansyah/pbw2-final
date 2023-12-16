@@ -34,7 +34,6 @@ class ViewController extends BaseController
 
     public function status(int $id)
     {
-        /** @var Status */
         $status = model(StatusModel::class)->find($id);
 
         return $this->view('status', 'Status', [

@@ -5,6 +5,11 @@ namespace App\Models;
 use App\Entities\Profile;
 use CodeIgniter\Model;
 
+/**
+ * @method ?Profile first()
+ * @method ?Profile find($id = null)
+ * @method Profile[] findAll()
+ */
 class ProfileModel extends Model
 {
     protected $table            = 'profiles';
