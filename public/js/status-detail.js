@@ -8,13 +8,15 @@ const ancestorStatusContainer = $("#ancestor-status-container");
 
 const mainStatusData = mainStatus.data();
 
-let statusUpdatedAt = mainStatusData.updatedAt == null ? null : formatStatusDate(parseMysqlDateTime(mainStatusData.updatedAt));
+let statusUpdatedAt = mainStatusData.updatedAt == null ? null
+  : formatStatusDate(parseMysqlDateTime(mainStatusData.updatedAt));
+
 const statusCreatedAt = formatStatusDate(parseMysqlDateTime(mainStatusData.createdAt));
 
 function updateMainStatusTime() {
   mainStatusTime.html(statusCreatedAt);
 
-  if (statusUpdatedAt !== null) {
+  if (statusUpdatedAt !== statusCreatedAt) {
     mainStatusTime.append(`, Updated ${statusUpdatedAt}`);
   }
 }
@@ -92,25 +94,25 @@ postReplyButton.click(function () {
 });
 
 $.post("/api/get_status_ancestor", {
-  id: mainStatusData.id
+  statusId: mainStatusData.id
 }, function (data) {
   const oldHeight = main.height();
   let ancestorHeight = 0;
 
   for (let i = 0; i < data.length; i++) {
-    const { status_id, status_content } = data[i];
+    const { id, content } = data[i];
     const statusDiv = createStatusDiv(data[i]);
 
     ancestorStatusContainer.prepend(statusDiv);
-    setupStatusDiv(status_id, status_content);
+    setupStatusDiv(id, content);
 
-    ancestorHeight += $(`#status-${status_id}`).outerHeight();
+    ancestorHeight += $(`#status-${id}`).outerHeight();
 
     if (i < (data.length - 1)) {
-      $(`#status-${status_id} #thread-line-before`).removeClass("c-hidden");
+      $(`#status-${id} #thread-line-before`).removeClass("c-hidden");
     }
 
-    $(`#status-${status_id} #thread-line-after`).removeClass("c-hidden");
+    $(`#status-${id} #thread-line-after`).removeClass("c-hidden");
   }
 
   if (data.length > 0) {
@@ -123,15 +125,15 @@ $.post("/api/get_status_ancestor", {
 
 mainStatus.find(".c-status-like").click(function () {
   $.post("/api/like", {
-    status_id: mainStatusData.id
+    statusId: mainStatusData.id
   }, function (data) {
     const {
       liked,
-      new_like_count
+      newLikeCount
     } = data;
 
-    if (new_like_count !== undefined) {
-      mainStatusLikeCounter.html(new_like_count);
+    if (newLikeCount !== undefined) {
+      mainStatusLikeCounter.html(newLikeCount);
     }
 
     if (liked) mainStatusHeart
@@ -144,9 +146,9 @@ mainStatus.find(".c-status-like").click(function () {
 });
 
 function fetchReply(idBefore) {
-  $.get("/api/get_reply", {
-    parent_status_id: mainStatusData.id,
-    id_before: idBefore
+  $.post("/api/get_reply", {
+    parentStatusId: mainStatusData.id,
+    idBefore
   }, statusResponseHandler);
 }
 
@@ -161,7 +163,7 @@ $("#delete-status-modal #confirm-button").click(function () {
 fetchReply(0);
 
 $(window).scroll(function () {
-  if ($(window).scrollTop() + $(window).height() === $(document).height()) {
+  if ($(window).scrollTop() + window.innerHeight === $(document).height()) {
     fetchReply(earliestStatusId);
   }
 });

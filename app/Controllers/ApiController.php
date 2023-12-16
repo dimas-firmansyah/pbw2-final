@@ -30,7 +30,7 @@ class ApiController extends BaseController
                 and connections.following_user_id = status.user_id
                 SQL,'left',false)
             ->where(<<<SQL
-                status.id<?
+                status.id < ?
                   and status.parent_status_id is null
                   and (connections.id is not null
                        or status.user_id=?)
@@ -47,7 +47,7 @@ class ApiController extends BaseController
     public function get_status_ancestor()
     {
         $userId = user_id();
-        $id = $this->request->getVar('id');
+        $statusId = $this->request->getVar('statusId');
 
         $result = [];
         $statusModel = model(StatusModel::class);
@@ -58,7 +58,7 @@ class ApiController extends BaseController
             ->getCompiledSelect();
 
         $status = $statusModel->db
-            ->query($query, [$userId, $id])
+            ->query($query, [$userId, $statusId])
             ->getFirstRow();
 
         while ($status->parent_status_id != null) {
@@ -69,6 +69,31 @@ class ApiController extends BaseController
         }
 
         return $this->respond($result);
+    }
+
+    public function get_reply()
+    {
+        $userId = user_id();
+        $parentStatusId = $this->request->getVar('parentStatusId');
+        $idBefore = $this->request->getVar('idBefore');
+
+        if ($idBefore == 0) {
+            $idBefore = PHP_INT_MAX;
+        }
+
+        $statusModel = model(StatusModel::class);
+        $query = $statusModel->getDetailsBuilder()
+            ->where(<<<SQL
+                    status.parent_status_id = ?
+                and status.id < ?
+                SQL)
+            ->groupBy('status.id')
+            ->orderBy('status.id','DESC')
+            ->limit(25)
+            ->getCompiledSelect();
+
+        $result = $statusModel->db->query($query, [$userId, $parentStatusId, $idBefore]);
+        return $this->respond($result->getResultArray());
     }
 
     public function like()

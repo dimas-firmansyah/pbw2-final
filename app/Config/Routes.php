@@ -16,6 +16,7 @@ $views = [
 $api = [
     'get_home_status',
     'get_status_ancestor',
+    'get_reply',
     'like',
 ];
 

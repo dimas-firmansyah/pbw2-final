@@ -1,0 +1,24 @@
+body {
+    background-color: var(--bs-light);
+    overflow-y: scroll;
+}
+
+.c-container {
+    min-height: 100vh;
+}
+
+@media (min-width: 992px) {
+    .c-container {
+        max-width: 960px;
+    }
+}
+
+@media (max-width: 768px) {
+    html {
+        font-size: 10px;
+    }
+}
+
+.flex-even {
+    flex: 1;
+}

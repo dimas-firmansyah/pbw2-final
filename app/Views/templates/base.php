@@ -14,39 +14,14 @@
         integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
         crossorigin="anonymous" referrerpolicy="no-referrer"/>
 
+  <link rel="stylesheet" href="/css/root.css">
+
   <script src="https://code.jquery.com/jquery-3.7.0.min.js"
           integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
 
   <title><?="{$pageTitle} | {$_ENV['SITE_TITLE']}"?></title>
 
   <?php $view->renderSection('head')?>
-
-  <style>
-    body {
-        background-color: var(--bs-light);
-        overflow-y: scroll;
-    }
-
-    .c-container {
-        min-height: 100vh;
-    }
-
-    @media (min-width: 992px) {
-        .c-container {
-            max-width: 960px;
-        }
-    }
-
-    @media (max-width: 768px) {
-        html {
-            font-size: 10px;
-        }
-    }
-
-    .flex-even {
-        flex: 1;
-    }
-    </style>
 </head>
 
 <body>

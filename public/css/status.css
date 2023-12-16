@@ -21,7 +21,7 @@
     height: auto;
 }
 
-.c-status-buttons > div {
+.c-status-buttons>div {
     width: 5em;
 }
 
@@ -64,6 +64,7 @@
     width: 0;
 }
 
-#status-content, #main-status-content {
+#status-content,
+#main-status-content {
     white-space: pre-wrap;
 }
