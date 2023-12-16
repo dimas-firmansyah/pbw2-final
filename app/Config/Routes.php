@@ -17,7 +17,10 @@ $api = [
     'get_home_status',
     'get_status_ancestor',
     'get_reply',
+    'post_status',
+    'post_reply',
     'like',
+    'delete_status',
 ];
 
 foreach ($views as $key => $val) {

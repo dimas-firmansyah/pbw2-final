@@ -62,7 +62,7 @@ class StatusModel extends Model
             ->join('profiles',<<<SQL
                 profiles.id = users.id
                 SQL,'left')
-            
+
             ->join('engagements',<<<SQL
                 status.id = engagements.status_id
                 SQL,'left')
@@ -73,5 +73,10 @@ class StatusModel extends Model
                     status.id = liked.status_id
                 and liked.user_id = ?
                 SQL,'left',false);
+    }
+
+    public function runDetailsQuery(string $query, string $userId, ...$binds)
+    {
+        return $this->db->query($query, [$userId, ...$binds]);
     }
 }

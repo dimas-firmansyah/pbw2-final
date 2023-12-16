@@ -40,7 +40,7 @@ class ApiController extends BaseController
             ->limit(25)
             ->getCompiledSelect();
 
-        $result = $statusModel->db->query($query, [$userId, $userId, $idBefore, $userId]);
+        $result = $statusModel->runDetailsQuery($query, $userId, $userId, $idBefore, $userId);
         return $this->respond($result->getResultArray());
     }
 
@@ -57,13 +57,13 @@ class ApiController extends BaseController
             ->limit(1)
             ->getCompiledSelect();
 
-        $status = $statusModel->db
-            ->query($query, [$userId, $statusId])
+        $status = $statusModel
+            ->runDetailsQuery($query, $userId, $statusId)
             ->getFirstRow();
 
         while ($status->parent_status_id != null) {
-            $status = $statusModel->db
-                ->query($query, [$userId, $status->parent_status_id])
+            $status = $statusModel
+                ->runDetailsQuery($query, $userId, $status->parent_status_id)
                 ->getFirstRow();
             $result[] = $status;
         }
@@ -92,8 +92,43 @@ class ApiController extends BaseController
             ->limit(25)
             ->getCompiledSelect();
 
-        $result = $statusModel->db->query($query, [$userId, $parentStatusId, $idBefore]);
+        $result = $statusModel->runDetailsQuery($query, $userId, $parentStatusId, $idBefore);
         return $this->respond($result->getResultArray());
+    }
+
+    private function _post_status(?int $parentStatusId)
+    {
+        $userId = user_id();
+        $content = $this->request->getVar('content');
+
+        $statusModel = model(StatusModel::class);
+        $statusId = $statusModel->insert(Status::create($userId, $content, $parentStatusId));
+        $query = $statusModel->getDetailsBuilder()
+            ->where('status.id', $statusId)
+            ->getCompiledSelect();
+
+        $result = $statusModel->runDetailsQuery($query, $userId);
+        return $this->respond($result->getFirstRow());
+    }
+
+    public function post_status()
+    {
+        return $this->_post_status(null);
+    }
+
+    public function post_reply()
+    {
+        $parentStatusId = $this->request->getVar('parentStatusId');
+        return $this->_post_status($parentStatusId);
+    }
+
+    public function delete_status()
+    {
+        $statusId = $this->request->getVar('statusId');
+
+        model(StatusModel::class)->delete($statusId);
+        
+        return $this->respond();
     }
 
     public function like()

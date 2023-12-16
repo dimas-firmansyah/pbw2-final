@@ -40,22 +40,22 @@ function createStatusDiv(data) {
     username,
     created_at,
     updated_at,
+    deleted_at,
     display_name,
     avatar,
     like_count,
     child_count,
     liked,
-    deleted
   } = data;
 
   const heartStyle = liked === "1" ? "fa-solid" : "fa-regular";
-  const date = deleted ? null : parseMysqlDateTime(created_at);
-  const dateString = deleted ? null : formatStatusDate(date);
+  const date = deleted_at ? null : parseMysqlDateTime(created_at);
+  const dateString = deleted_at ? null : formatStatusDate(date);
 
   const updatedIcon = updated_at === created_at ? "" : /*html*/`
       <i class="fa-solid fa-xs fa-pen"></i>`;
 
-  const inner = !deleted ? /*html*/`
+  const inner = !deleted_at ? /*html*/`
       <div class="d-flex flex-column flex-shrink-0">
         <div class="c-thread-line c-hidden" id="thread-line-before"></div>
         <a href="/profile/${username}" class="c-status-avatar">

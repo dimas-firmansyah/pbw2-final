@@ -3,7 +3,6 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
-use App\Entities\Status;
 use App\Models\StatusModel;
 
 class ViewController extends BaseController
@@ -34,10 +33,14 @@ class ViewController extends BaseController
 
     public function status(int $id)
     {
-        $status = model(StatusModel::class)->find($id);
+        $status = model(StatusModel::class)
+            ->withDeleted()
+            ->find($id);
+
+        log_message('error', var_export($status, true));
 
         return $this->view('status', 'Status', [
-            'status'    => $status
+            'status' => $status,
         ]);
     }
 }

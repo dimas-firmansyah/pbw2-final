@@ -15,7 +15,7 @@ $client = User::get();
 $clientProfile = $client->getProfile();
 
 $statusOwner = $status->getOwner();
-$statusProfile = $statusOwner->getProfile();
+$statusProfile = $statusOwner?->getProfile();
 
 $liked = $status->getEngagementFor(user_id()) !== null;
 ?>
@@ -32,11 +32,14 @@ $liked = $status->getEngagementFor(user_id()) !== null;
 <div class="flex-grow-1" id="main">
   <div class="d-flex flex-column" id="ancestor-status-container"></div>
 
+    <div id="main-status-data"
+         data-id="<?=$status->id?>"
+         data-created-at="<?=$status->created_at?>"
+         data-updated-at="<?=$status->updated_at?>">
+    </div>
+
     <?php if (!$status->isDeleted()) {?>
-      <div class="px-3 d-flex flex-column gap-3" id="main-status"
-           data-id="<?=$status->id?>"
-           data-created-at="<?=$status->created_at?>"
-           data-updated-at="<?=$status->updated_at?>">
+      <div class="px-3 d-flex flex-column gap-3" id="main-status">
         <div class="d-flex gap-3">
           <div class="d-flex flex-column flex-shrink-0">
             <div class="c-thread-line c-hidden" id="thread-line-before"></div>

@@ -6,7 +6,7 @@ const mainStatusLikeCounter = $("#main-status-like-counter");
 const mainStatusHeart = $("#main-status-heart");
 const ancestorStatusContainer = $("#ancestor-status-container");
 
-const mainStatusData = mainStatus.data();
+const mainStatusData = $("#main-status-data").data();
 
 let statusUpdatedAt = mainStatusData.updatedAt == null ? null
   : formatStatusDate(parseMysqlDateTime(mainStatusData.updatedAt));
@@ -76,19 +76,19 @@ replyInput.keyup(function () {
 
 postReplyButton.click(function () {
   $.post("/api/post_reply", {
-    parent_status_id: mainStatusData.id,
+    parentStatusId: mainStatusData.id,
     content: replyInput.val().trim()
   }, function (data) {
-    const { status_id, status_content } = data;
+    const { id, content } = data;
 
     const statusDiv = createStatusDiv(data);
     statusContainer.prepend(statusDiv);
-    setupStatusDiv(status_id, status_content);
+    setupStatusDiv(id, content);
     replyInput.val("");
     replyInput.keyup();
 
     if (earliestStatusId === 0) {
-      earliestStatusId = status_id;
+      earliestStatusId = id;
     }
   });
 });
@@ -154,7 +154,7 @@ function fetchReply(idBefore) {
 
 $("#delete-status-modal #confirm-button").click(function () {
   $.post("/api/delete_status", {
-    status_id: mainStatusData.id
+    statusId: mainStatusData.id
   }, function () {
     window.location.reload();
   });

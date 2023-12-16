@@ -20,10 +20,10 @@ postStatusButton.click(function () {
   $.post("/api/post_status", {
     content: statusInput.val().trim()
   }, function (data) {
-    const { status_id, status_content } = data;
+    const { id, content } = data;
     const statusDiv = createStatusDiv(data);
     statusContainer.prepend(statusDiv);
-    setupStatusDiv(status_id, status_content);
+    setupStatusDiv(id, content);
     statusInput.val("");
     statusInput.keyup();
   });
