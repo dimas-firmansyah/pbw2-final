@@ -15,6 +15,7 @@ $views = [
 
 $api = [
     'get_home_status',
+    'get_profile_status',
     'get_status_ancestor',
     'get_reply',
     'post_status',

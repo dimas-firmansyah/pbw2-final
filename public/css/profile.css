@@ -1,0 +1,53 @@
+.c-banner-picture {
+    background-color: var(--bs-gray-400);
+    height: 13rem;
+}
+
+.c-avatar-holder {
+    position: relative;
+    height: 4.5rem;
+}
+
+.c-avatar {
+    position: absolute;
+    height: 9rem;
+    width: 9rem;
+    border: 4px solid var(--bs-light);
+    border-radius: 50%;
+    background-color: var(--bs-gray-300);
+    translate: 1rem -50%;
+    overflow: hidden;
+
+    background-image: url("/assets/media/noavatar.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: auto 100%;
+}
+
+.c-avatar img {
+    width: 100%;
+    height: auto;
+}
+
+.c-buttons {
+    margin-left: auto;
+    width: fit-content;
+}
+
+.c-buttons>button {
+    min-width: 6.5em;
+}
+
+#unfollow-button>span:before {
+    content: "Following";
+}
+
+#unfollow-button:hover {
+    background-color: var(--bs-danger-bg-subtle);
+    border-color: var(--bs-danger-border-subtle) !important;
+}
+
+#unfollow-button:hover>span:before {
+    color: var(--bs-danger);
+    content: "Unfollow";
+}

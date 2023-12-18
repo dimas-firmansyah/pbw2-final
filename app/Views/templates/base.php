@@ -25,6 +25,7 @@
 </head>
 
 <body>
+<?php $view->renderSection('data');?>
 <?php $view->renderSection('body');?>
 <?php $view->renderSection('footer');?>
 

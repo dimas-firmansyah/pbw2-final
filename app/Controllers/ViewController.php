@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\StatusModel;
+use App\Models\UserModel;
 
 class ViewController extends BaseController
 {
@@ -26,11 +27,6 @@ class ViewController extends BaseController
         return $this->view('home', 'Home');
     }
 
-    public function profile(string $username)
-    {
-        return $this->view('profile', $username);
-    }
-
     public function status(int $id)
     {
         $status = model(StatusModel::class)
@@ -41,6 +37,17 @@ class ViewController extends BaseController
 
         return $this->view('status', 'Status', [
             'status' => $status,
+        ]);
+    }
+
+    public function profile(string $username)
+    {
+        $user = model(UserModel::class)
+            ->where('username', $username)
+            ->first();
+
+        return $this->view('profile/index', $username, [
+            'user' => $user,
         ]);
     }
 }

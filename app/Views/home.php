@@ -40,6 +40,6 @@ use App\Entities\User;
 
 
 <?php $view->section('js');?>
-<script src="/js/status-util.js"></script>
+<script src="/js/status/util.js"></script>
 <script src="/js/home.js"></script>
 <?php $view->endSection();?>

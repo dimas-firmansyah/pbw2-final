@@ -32,16 +32,6 @@ class Profile extends Entity
         return config(App::class)->baseURL . 'img/avatar/' . $avatar;
     }
 
-    public function getSaveDisplayName(): string
-    {
-        return htmlspecialchars($this->display_name);
-    }
-
-    public function getSaveBio(): string
-    {
-        return htmlspecialchars($this->bio);
-    }
-
     public function getAvatarUrl(): string
     {
         return Profile::resolveAvatarUrl($this->attributes['avatar']);

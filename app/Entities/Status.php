@@ -49,11 +49,6 @@ class Status extends Entity
         return $this->isDeleted() ? null : model(UserModel::class)->find($this->user_id);
     }
 
-    public function getSaveContent(): string
-    {
-        return htmlspecialchars($this->content);
-    }
-
     public function getLikeCount(): int
     {
         return model(EngagementModel::class)

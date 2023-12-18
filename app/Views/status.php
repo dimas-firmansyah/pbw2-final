@@ -27,16 +27,17 @@ $liked = $status->getEngagementFor(user_id()) !== null;
 <link rel="stylesheet" href="/css/status.css">
 <?php $view->endSection();?>
 
+<?php $view->section('data');?>
+<div id="main-status-data"
+     data-id="<?=$status->id?>"
+     data-created-at="<?=$status->created_at?>"
+     data-updated-at="<?=$status->updated_at?>">
+</div>
+<?php $view->endSection();?>
 
 <?php $view->section('slot');?>
 <div class="flex-grow-1" id="main">
   <div class="d-flex flex-column" id="ancestor-status-container"></div>
-
-    <div id="main-status-data"
-         data-id="<?=$status->id?>"
-         data-created-at="<?=$status->created_at?>"
-         data-updated-at="<?=$status->updated_at?>">
-    </div>
 
     <?php if (!$status->isDeleted()) {?>
       <div class="px-3 d-flex flex-column gap-3" id="main-status">
@@ -52,7 +53,7 @@ $liked = $status->getEngagementFor(user_id()) !== null;
               <div>
                 <a href="/profile/<?=$statusOwner->username?>"
                    class="link-body-emphasis link-underline link-underline-opacity-0 link-underline-opacity-100-hover fw-bold">
-                    <?=$statusProfile->getSaveDisplayName()?>
+                    <?=esc($statusProfile->display_name)?>
                 </a>
                 <span class="float-end font-monospace text-body-tertiary">#<?=$status->id?></span>
               </div>
@@ -60,7 +61,7 @@ $liked = $status->getEngagementFor(user_id()) !== null;
             </div>
           </div>
         </div>
-        <div class="text-break fs-5" id="main-status-content"><?=$status->getSaveContent()?></div>
+        <div class="text-break fs-5" id="main-status-content"><?=esc($status->content)?></div>
 
           <?php if ($statusOwner->id === $client->id) {?>
             <div class="d-flex flex-column flex-grow-1 gap-2 pb-3 border-bottom d-none" id="edit-status-container">
@@ -147,6 +148,6 @@ $liked = $status->getEngagementFor(user_id()) !== null;
 
 
 <?php $view->section('js');?>
-<script src="/js/status-util.js"></script>
-<script src="/js/status-detail.js"></script>
+<script src="/js/status/util.js"></script>
+<script src="/js/status/detail.js"></script>
 <?php $view->endSection();?>

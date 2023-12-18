@@ -71,6 +71,31 @@ class ApiController extends BaseController
         return $this->respond($result);
     }
 
+    public function get_profile_status()
+    {
+        $clientUserId = user_id();
+        $viewedUserId = $this->request->getVar('userId');
+        $idBefore = $this->request->getVar('idBefore');
+
+        if ($idBefore == 0) {
+            $idBefore = PHP_INT_MAX;
+        }
+
+        $statusModel = model(StatusModel::class);
+        $query = $statusModel->getDetailsBuilder()
+            ->where(<<<SQL
+                    status.user_id = ?
+                and status.id < ?
+                SQL)
+            ->groupBy('status.id')
+            ->orderBy('status.id','DESC')
+            ->limit(25)
+            ->getCompiledSelect();
+
+        $result = $statusModel->runDetailsQuery($query, $clientUserId, $viewedUserId, $idBefore);
+        return $this->respond($result->getResultArray());
+    }
+
     public function get_reply()
     {
         $userId = user_id();
@@ -132,8 +157,8 @@ class ApiController extends BaseController
         $status = $statusModel->find($statusId);
 
         if ($status->user_id === $userId) {
-          $status->content = $content;
-          $statusModel->save($status);
+            $status->content = $content;
+            $statusModel->save($status);
         }
 
         $query = $statusModel->getDetailsBuilder()
