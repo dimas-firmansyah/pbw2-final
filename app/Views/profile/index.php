@@ -13,6 +13,7 @@ require __DIR__ . '/../_types.php';
 $profile = $user->getProfile();
 $following = $user->getFollowingCount();
 $followers = $user->getFollowerCount();
+$followed = $user->isFollowedBy(user_id());
 ?>
 
 <?php $view->extend('templates/nav');?>
@@ -24,7 +25,8 @@ $followers = $user->getFollowerCount();
 
 <?php $view->section('head');?>
 <div id="profile-data"
-     data-id="<?=$user->id?>"></div>
+     data-id="<?=$user->id?>"
+     data-followed="<?=$followed?>"></div>
 <?php $view->endSection();?>
 
 <?php $view->section('slot');?>
@@ -55,7 +57,7 @@ $followers = $user->getFollowerCount();
       <div class="fw-bold fs-5"><?=esc($profile->display_name)?></div>
         <?php ProfileUsernameCell::m($user)?>
     </div>
-    <div class="text-break"><?=esc($user->username)?></div>
+    <div class="text-break font-monospace">@<?=esc($user->username)?></div>
     <div class="d-flex gap-3">
       <a href="/profile/<?=$user->username?>/following"
          class="link-body-emphasis link-underline link-underline-opacity-0 link-underline-opacity-100-hover">
@@ -73,5 +75,9 @@ $followers = $user->getFollowerCount();
 
 <?php $view->section('js');?>
 <script src="/js/status/util.js"></script>
-<script src="/js/profile/all.js"></script>
+<script src="/js/profile/base.js"></script>
+
+<?php if ($user->id != user_id()) { ?>
+<script src="/js/profile/foreign.js"></script>
+<?php } ?>
 <?php $view->endSection();?>

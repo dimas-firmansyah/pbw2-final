@@ -94,6 +94,16 @@ class User extends AuthUser
             ->countAllResults() > 0;
     }
 
+    public function isFollowedBy(int $user_id): bool
+    {
+        return model(ConnectionModel::class)
+            ->where([
+                'follower_user_id'  => $user_id,
+                'following_user_id' => $this->id,
+            ])
+            ->countAllResults() > 0;
+    }
+
     public function getFollowingCount(): int
     {
         return model(ConnectionModel::class)
@@ -116,6 +126,16 @@ class User extends AuthUser
         return model(ConnectionModel::class)
             ->where('following_user_id', $this->id)
             ->countAllResults();
+    }
+
+    public function getFollower(int $follower_user_id)
+    {
+        return model(ConnectionModel::class)
+            ->where([
+                'follower_user_id'  => $follower_user_id,
+                'following_user_id' => $this->id,
+            ])
+            ->first();
     }
 
     /**

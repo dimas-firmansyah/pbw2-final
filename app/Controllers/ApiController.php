@@ -3,10 +3,13 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Entities\Connection;
 use App\Entities\Engagement;
 use App\Entities\Status;
+use App\Models\ConnectionModel;
 use App\Models\EngagementModel;
 use App\Models\StatusModel;
+use App\Models\UserModel;
 use CodeIgniter\API\ResponseTrait;
 
 class ApiController extends BaseController
@@ -197,6 +200,38 @@ class ApiController extends BaseController
         return $this->respond([
             'liked'        => $engagement == null,
             'newLikeCount' => $status->getLikeCount(),
+        ]);
+    }
+
+    public function follow()
+    {
+        $clientId = user_id();
+        $type = $this->request->getVar('type');
+        $targetId = $this->request->getVar('targetId');
+
+        $targetUser = model(UserModel::class)->find($targetId);
+        $connectionModel = model(ConnectionModel::class);
+
+        if ($targetUser === null) {
+            return $this->respond(null, 404, 'unknown target user id');
+        }
+
+        $alreadyFollowed = $targetUser->isFollowedBy($clientId);
+
+        if ($type === 'follow') {
+            if (!$alreadyFollowed) {
+                $connectionModel->insert(Connection::create($targetId, $clientId));
+            }
+        } else {
+            $connection = $targetUser->getFollower($clientId);
+
+            if ($alreadyFollowed) {
+                $connectionModel->delete($connection->id);
+            }
+        }
+
+        return $this->respond([
+            'followerCount' => $targetUser->getFollowerCount(),
         ]);
     }
 }

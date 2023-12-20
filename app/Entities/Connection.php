@@ -6,6 +6,7 @@ use App\Models\UserModel;
 use CodeIgniter\Entity\Entity;
 
 /**
+ * @property int $id
  * @property int $following_user_id
  * @property int $follower_user_id
  */
