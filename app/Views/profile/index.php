@@ -23,16 +23,17 @@ $followed = $user->isFollowedBy(user_id());
 <link rel="stylesheet" href="/css/profile.css">
 <?php $view->endSection();?>
 
-<?php $view->section('head');?>
+
+<?php $view->section('data');?>
 <div id="profile-data"
      data-id="<?=$user->id?>"
      data-followed="<?=$followed?>"></div>
 <?php $view->endSection();?>
 
+
 <?php $view->section('slot');?>
-<div class="sticky-top bg-light">
-    <?php ProfileHeaderCell::m($profile)?>
-</div>
+<?=ProfileHeaderCell::m($profile)?>
+
 <div class="border-bottom pb-3">
   <div class="c-banner-picture border-bottom"></div>
   <div class="c-avatar-holder">
@@ -55,9 +56,9 @@ $followed = $user->isFollowedBy(user_id());
   <div class="px-3 d-flex flex-column gap-2">
     <div>
       <div class="fw-bold fs-5"><?=esc($profile->display_name)?></div>
-        <?php ProfileUsernameCell::m($user)?>
+      <?=ProfileUsernameCell::m($user)?>
     </div>
-    <div class="text-break font-monospace">@<?=esc($user->username)?></div>
+
     <div class="d-flex gap-3">
       <a href="/profile/<?=$user->username?>/following"
          class="link-body-emphasis link-underline link-underline-opacity-0 link-underline-opacity-100-hover">
@@ -73,11 +74,12 @@ $followed = $user->isFollowedBy(user_id());
 <div class="d-flex flex-column" id="status-container"></div>
 <?php $view->endSection();?>
 
+
 <?php $view->section('js');?>
 <script src="/js/status/util.js"></script>
 <script src="/js/profile/base.js"></script>
 
-<?php if ($user->id != user_id()) { ?>
+<?php if ($user->id != user_id()) {?>
 <script src="/js/profile/foreign.js"></script>
-<?php } ?>
+<?php }?>
 <?php $view->endSection();?>
