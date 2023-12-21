@@ -43,4 +43,31 @@ class ProfileModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    public function getDetailsBuilder()
+    {
+        return $this->builder()
+            ->select(<<<SQL
+                users.username,
+                profiles.*,
+                count(distinct followed.id) as followed,
+                count(distinct following.id) as following,
+                SQL)
+            ->join('users',<<<SQL
+                profiles.id = users.id
+                SQL)
+            ->join('connections followed',<<<SQL
+                    followed.follower_user_id = ?
+                and followed.following_user_id = users.id
+                SQL,'left',false)
+            ->join('connections following',<<<SQL
+                    following.follower_user_id = users.id
+                and following.following_user_id = ?
+                SQL,'left',false);
+    }
+
+    public function runDetailsQuery(string $query, string $userId, ...$binds)
+    {
+        return $this->db->query($query, [$userId, $userId, ...$binds]);
+    }
 }

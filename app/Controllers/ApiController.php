@@ -8,6 +8,7 @@ use App\Entities\Engagement;
 use App\Entities\Status;
 use App\Models\ConnectionModel;
 use App\Models\EngagementModel;
+use App\Models\ProfileModel;
 use App\Models\StatusModel;
 use App\Models\UserModel;
 use CodeIgniter\API\ResponseTrait;
@@ -233,5 +234,27 @@ class ApiController extends BaseController
         return $this->respond([
             'followerCount' => $targetUser->getFollowerCount(),
         ]);
+    }
+
+    public function search()
+    {
+        $clientId = user_id();
+        $query = $this->request->getVar('query');
+
+        $profileModel = model(ProfileModel::class);
+
+        $builder = $profileModel->getDetailsBuilder();
+
+        if ($query[0] == '@') {
+            $builder->like('username', substr($query, 1));
+        } else {
+            $builder->like('username', $query)
+                ->orLike('display_name', $query);
+        }
+
+        $builder->groupBy('profiles.id')->limit(10);
+
+        $result = $profileModel->runDetailsQuery($builder->getCompiledSelect(), $clientId);
+        return $this->respond($result->getResultArray());
     }
 }

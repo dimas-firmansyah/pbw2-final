@@ -9,6 +9,7 @@ use CodeIgniter\Router\RouteCollection;
 $views = [
     '/'                            => 'root',
     'home',
+    'search',
     'status/(:num)'                => 'status/$1',
     'profile/(:segment)'           => 'profile/$1',
     'profile/(:segment)/following' => 'following/$1',
@@ -25,6 +26,7 @@ $api = [
     'edit_status',
     'like',
     'follow',
+    'search',
     'delete_status',
 ];
 

@@ -77,6 +77,7 @@ class Filters extends BaseConfig
         'login' => [
             'before' => [
                 'home',
+                'search',
                 'api/*',
                 'profile/*',
                 'status/*'
