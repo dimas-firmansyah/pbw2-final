@@ -40,16 +40,13 @@ $followed = $user->isFollowedBy(user_id());
     <div class="c-avatar">
       <img src="<?=$profile->getAvatarUrl()?>" alt="">
     </div>
-    <div class="c-buttons pt-3 pe-3">
+    <div class="c-buttons pt-3 pe-3" id="profile-buttons">
         <?php if ($user->id == user_id()) {?>
           <a href="/settings/profile" class="btn btn-light border border-dark-subtle fw-bold">
             Edit Profile
           </a>
         <?php } else {?>
-          <button class="btn btn-light border border-dark-subtle fw-bold" id="unfollow-button">
-            <span></span>
-          </button>
-          <button class="btn btn-dark fw-bold" id="follow-button">Follow</button>
+          
         <?php }?>
     </div>
   </div>

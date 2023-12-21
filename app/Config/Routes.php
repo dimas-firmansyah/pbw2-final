@@ -7,10 +7,12 @@ use CodeIgniter\Router\RouteCollection;
  */
 
 $views = [
-    '/'                  => 'root',
+    '/'                            => 'root',
     'home',
-    'status/(:num)'      => 'status/$1',
-    'profile/(:segment)' => 'profile/$1',
+    'status/(:num)'                => 'status/$1',
+    'profile/(:segment)'           => 'profile/$1',
+    'profile/(:segment)/following' => 'following/$1',
+    'profile/(:segment)/followers' => 'followers/$1',
 ];
 
 $api = [

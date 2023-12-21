@@ -1,5 +1,11 @@
 let { followed } = profileData;
 
+$("#profile-buttons").html(/*html*/`
+  <button class="btn btn-light border border-dark-subtle fw-bold" id="unfollow-button">
+    <span></span>
+  </button>
+  <button class="btn btn-dark fw-bold" id="follow-button">Follow</button>`);
+
 const followButton = $("#follow-button");
 const unfollowButton = $("#unfollow-button");
 

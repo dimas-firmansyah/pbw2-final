@@ -50,4 +50,27 @@ class ViewController extends BaseController
             'user' => $user,
         ]);
     }
+
+    private function _connection(string $username, bool $following)
+    {
+        $user = model(UserModel::class)
+            ->where('username', $username)
+            ->first();
+
+        return $this->view('profile/connections', $username, [
+            'user'           => $user,
+            'connections'    => $following ? $user->getFollowing() : $user->getFollowers(),
+            'isFollowingTab' => $following,
+        ]);
+    }
+
+    public function following(string $username)
+    {
+        return $this->_connection($username, true);
+    }
+
+    public function followers(string $username)
+    {
+        return $this->_connection($username, false);
+    }
 }
