@@ -10,6 +10,7 @@ $views = [
     '/'                            => 'root',
     'home',
     'search',
+    'info',
     'status/(:num)'                => 'status/$1',
     'profile/(:segment)'           => 'profile/$1',
     'profile/(:segment)/following' => 'following/$1',

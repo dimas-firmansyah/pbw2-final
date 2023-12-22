@@ -32,6 +32,11 @@ class ViewController extends BaseController
         return $this->view('search', 'Search');
     }
 
+    public function info()
+    {
+        return $this->view('info', 'Info');
+    }
+
     public function status(int $id)
     {
         $status = model(StatusModel::class)
