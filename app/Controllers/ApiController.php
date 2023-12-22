@@ -5,7 +5,9 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use App\Entities\Connection;
 use App\Entities\Engagement;
+use App\Entities\Profile;
 use App\Entities\Status;
+use App\Entities\User;
 use App\Models\ConnectionModel;
 use App\Models\EngagementModel;
 use App\Models\ProfileModel;
@@ -256,5 +258,51 @@ class ApiController extends BaseController
 
         $result = $profileModel->runDetailsQuery($builder->getCompiledSelect(), $clientId);
         return $this->respond($result->getResultArray());
+    }
+
+    public function edit_profile()
+    {
+        if (!$this->validate([
+            'display_name' => [
+                'rules'  => 'required|max_length[30]',
+                'errors' => [
+                    'required' => 'Display name can\'t be empty',
+                ],
+            ],
+            'bio'          => [
+                'rules' => 'max_length[160]',
+            ],
+        ])) {
+            return redirect()
+                ->to('/settings/profile')
+                ->withInput()
+                ->with('error', $this->validator->getErrors());
+        }
+
+        $user = User::get();
+        $displayName = $this->request->getVar('display_name');
+        $bio = $this->request->getVar('bio');
+
+        if ($bio === '') {
+            $bio = null;
+        }
+
+        $profileModel = model(ProfileModel::class);
+
+        $profile = $user->getProfile();
+
+        if ($profile == null) {
+          $profile = Profile::create($user->id, $displayName, null, $bio);
+          $profileModel->insert($profile);
+        } else {
+          $profile->display_name = $displayName;
+          $profile->bio = $bio;
+
+          if ($profile->hasChanged()) {
+            $profileModel->save($profile);
+          }
+        }
+        
+        return redirect()->to("/profile/{$user->username}");
     }
 }

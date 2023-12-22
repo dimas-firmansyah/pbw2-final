@@ -22,7 +22,8 @@ $showExportButton = ((int) ($_ENV['FEAT_EXPORT_CONNECTIONS'] ?? 0)) > 0;
 
 <?php $view->section('head');?>
 <link rel="stylesheet" href="/css/tab.css">
-<link rel="stylesheet" href="/css/profile-list.css">
+<link rel="stylesheet" href="/css/profile/header.css">
+<link rel="stylesheet" href="/css/profile/list.css">
 <?php $view->endSection();?>
 
 

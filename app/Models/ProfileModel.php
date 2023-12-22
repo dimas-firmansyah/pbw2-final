@@ -18,7 +18,7 @@ class ProfileModel extends Model
     protected $returnType       = Profile::class;
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['id', 'display_name', 'avatar'];
+    protected $allowedFields    = ['id', 'display_name', 'avatar', 'bio'];
 
     // Dates
     protected $useTimestamps = false;

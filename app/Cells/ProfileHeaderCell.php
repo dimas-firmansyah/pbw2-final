@@ -7,13 +7,12 @@ use CodeIgniter\View\Cells\Cell;
 
 class ProfileHeaderCell extends Cell
 {
-    public $profile;
-    public $slot;
+    public $val;
 
-    public static function m(Profile $profile)
+    public static function m(string $val)
     {
         return view_cell(self::class, [
-            'profile' => $profile,
+            'val' => $val,
         ]);
     }
 }

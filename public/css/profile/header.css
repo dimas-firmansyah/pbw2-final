@@ -1,0 +1,9 @@
+.c-back-button {
+    line-height: 1.25em;
+    padding: 0.25em;
+    border-radius: 50%;
+}
+
+.c-back-button:hover {
+    background-color: var(--bs-gray-200);
+}

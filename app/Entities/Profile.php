@@ -9,7 +9,7 @@ use Config\App;
 /**
  * @property int $id
  * @property string $display_name
- * @property string $bio
+ * @property ?string $bio
  */
 class Profile extends Entity
 {
@@ -27,7 +27,7 @@ class Profile extends Entity
         ]);
     }
 
-    public static function resolveAvatarUrl(string $avatar): string
+    public static function resolveAvatarUrl(?string $avatar): string
     {
         return config(App::class)->baseURL . 'img/avatar/' . $avatar;
     }

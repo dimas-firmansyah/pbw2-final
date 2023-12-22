@@ -2,6 +2,7 @@
 
 namespace Config;
 
+use App\Filters\ProfileFilter;
 use CodeIgniter\Config\BaseConfig;
 use CodeIgniter\Filters\CSRF;
 use CodeIgniter\Filters\DebugToolbar;
@@ -31,6 +32,7 @@ class Filters extends BaseConfig
         'login'         => LoginFilter::class,
         'role'          => RoleFilter::class,
         'permission'    => PermissionFilter::class,
+        'profile'       => ProfileFilter::class,
     ];
 
     /**
@@ -42,6 +44,8 @@ class Filters extends BaseConfig
      */
     public array $globals = [
         'before' => [
+            'login',
+            'profile',
             // 'honeypot',
             // 'csrf',
             // 'invalidchars',
@@ -73,16 +77,18 @@ class Filters extends BaseConfig
      * Example:
      * 'isLoggedIn' => ['before' => ['account/*', 'profiles/*']]
      */
-    public array $filters = [
-        'login' => [
-            'before' => [
-                'home',
-                'search',
-                'info',
-                'api/*',
-                'profile/*',
-                'status/*'
-            ],
-        ],
-    ];
+    public array $filters = [];
+    // public array $filters = [
+    //     'login' => [
+    //         'before' => [
+    //             'home',
+    //             'search',
+    //             'info',
+    //             'settings/*',
+    //             'api/*',
+    //             'profile/*',
+    //             'status/*',
+    //         ],
+    //     ],
+    // ];
 }

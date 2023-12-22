@@ -70,16 +70,21 @@ class User extends AuthUser
         return model(UserModel::class)->find(user_id());
     }
 
-    public function getProfile(): Profile
+    public function hasProfile(): bool
+    {
+        return model(ProfileModel::class)->find($this->id) != null;
+    }
+
+    public function getProfile(): ?Profile
     {
         $profileModel = model(ProfileModel::class);
 
         $profile = $profileModel->find($this->id);
 
-        if ($profile == null) {
-            $profileId = $profileModel->insert(Profile::create($this->id, $this->username, null, null));
-            $profile = $profileModel->find($profileId);
-        }
+        // if ($profile == null) {
+        //     $profileId = $profileModel->insert(Profile::create($this->id, $this->username, null, null));
+        //     $profile = $profileModel->find($profileId);
+        // }
 
         return $profile;
     }

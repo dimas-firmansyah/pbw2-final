@@ -8,7 +8,7 @@ require __DIR__ . '/_types.php';
 
 
 <?php $view->section('head');?>
-<link rel="stylesheet" href="/css/profile-list.css">
+<link rel="stylesheet" href="/css/profile/list.css">
 <?php $view->endSection();?>
 
 

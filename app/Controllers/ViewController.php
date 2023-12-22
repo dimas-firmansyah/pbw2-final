@@ -61,6 +61,13 @@ class ViewController extends BaseController
         ]);
     }
 
+    public function profile_settings()
+    {
+        return $this->view('profile/settings', 'Profile Settings', [
+            'error' => session('error') ?? [],
+        ]);
+    }
+
     private function _connection(string $username, bool $following)
     {
         $user = model(UserModel::class)

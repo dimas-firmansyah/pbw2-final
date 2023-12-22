@@ -20,7 +20,8 @@ $followed = $user->isFollowedBy(user_id());
 
 <?php $view->section('head');?>
 <link rel="stylesheet" href="/css/status.css">
-<link rel="stylesheet" href="/css/profile.css">
+<link rel="stylesheet" href="/css/profile/index.css">
+<link rel="stylesheet" href="/css/profile/header.css">
 <?php $view->endSection();?>
 
 
@@ -32,7 +33,7 @@ $followed = $user->isFollowedBy(user_id());
 
 
 <?php $view->section('slot');?>
-<?=ProfileHeaderCell::m($profile)?>
+<?=ProfileHeaderCell::m($profile->display_name)?>
 
 <div class="border-bottom pb-3">
   <div class="c-banner-picture border-bottom"></div>
@@ -46,7 +47,7 @@ $followed = $user->isFollowedBy(user_id());
             Edit Profile
           </a>
         <?php } else {?>
-          
+
         <?php }?>
     </div>
   </div>
@@ -55,6 +56,10 @@ $followed = $user->isFollowedBy(user_id());
       <div class="fw-bold fs-5"><?=esc($profile->display_name)?></div>
       <?=ProfileUsernameCell::m($user)?>
     </div>
+
+    <?php if ($profile->bio) {?>
+      <div class="text-break"><?=esc($profile->bio)?></div>
+    <?php }?>
 
     <div class="d-flex gap-3">
       <a href="/profile/<?=$user->username?>/following"
