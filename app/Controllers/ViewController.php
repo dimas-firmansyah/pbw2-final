@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use App\Models\StatusModel;
 use App\Models\UserModel;
+use CodeIgniter\Exceptions\PageNotFoundException;
 
 class ViewController extends BaseController
 {
@@ -43,7 +44,9 @@ class ViewController extends BaseController
             ->withDeleted()
             ->find($id);
 
-        log_message('error', var_export($status, true));
+        if ($status == null) {
+            throw PageNotFoundException::forPageNotFound('Unknown Status');
+        }
 
         return $this->view('status', 'Status', [
             'status' => $status,
@@ -56,15 +59,23 @@ class ViewController extends BaseController
             ->where('username', $username)
             ->first();
 
+        $profile = $user?->getProfile();
+
+        if ($profile == null) {
+            throw PageNotFoundException::forPageNotFound('Unknown Profile');
+        }
+
         return $this->view('profile/index', $username, [
-            'user' => $user,
+            'user'    => $user,
+            'profile' => $profile,
         ]);
     }
 
     public function profile_settings()
     {
         return $this->view('profile/settings', 'Profile Settings', [
-            'error' => session('error') ?? [],
+            'error'       => session('error') ?? [],
+            'initProfile' => session('initProfile') ?? false,
         ]);
     }
 
@@ -73,6 +84,10 @@ class ViewController extends BaseController
         $user = model(UserModel::class)
             ->where('username', $username)
             ->first();
+
+        if ($user == null) {
+            throw PageNotFoundException::forPageNotFound('Unknown Profile');
+        }
 
         return $this->view('profile/connections', $username, [
             'user'           => $user,

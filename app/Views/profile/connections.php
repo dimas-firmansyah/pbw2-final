@@ -55,6 +55,11 @@ $showExportButton = ((int) ($_ENV['FEAT_EXPORT_CONNECTIONS'] ?? 0)) > 0;
   <?php foreach ($connections as $connection) {
     $connectionUser = $isFollowingTab ? $connection->getFollowing() : $connection->getFollower();
     $connectionProfile = $connectionUser->getProfile();
+    
+    if ($connectionProfile == null) {
+        continue;
+    }
+
     $followedByClient = $connectionUser->isFollowedBy(user_id());
     ?>
     <li class="c-user nav-item d-flex px-3 py-2 gap-3"
@@ -75,7 +80,7 @@ $showExportButton = ((int) ($_ENV['FEAT_EXPORT_CONNECTIONS'] ?? 0)) > 0;
               <?=ProfileUsernameCell::m($connectionUser)?>
           </div>
           <div class="c-profile-buttons my-auto">
-            
+
           </div>
         </div>
         <div><?=esc($connectionProfile->bio)?></div>

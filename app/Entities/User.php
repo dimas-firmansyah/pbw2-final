@@ -81,11 +81,6 @@ class User extends AuthUser
 
         $profile = $profileModel->find($this->id);
 
-        // if ($profile == null) {
-        //     $profileId = $profileModel->insert(Profile::create($this->id, $this->username, null, null));
-        //     $profile = $profileModel->find($profileId);
-        // }
-
         return $profile;
     }
 

@@ -58,10 +58,10 @@ class StatusModel extends Model
                 SQL)
             ->join('users',<<<SQL
                 status.user_id = users.id
-                SQL,'left')
+                SQL)
             ->join('profiles',<<<SQL
                 profiles.id = users.id
-                SQL,'left')
+                SQL)
             ->join('engagements',<<<SQL
                 status.id = engagements.status_id
                 SQL,'left')

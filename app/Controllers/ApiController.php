@@ -262,6 +262,9 @@ class ApiController extends BaseController
 
     public function edit_profile()
     {
+        $initProfile = session('initProfile');
+        $redirectUrl = session('redirectUrl');
+
         if (!$this->validate([
             'display_name' => [
                 'rules'  => 'required|max_length[30]',
@@ -280,6 +283,7 @@ class ApiController extends BaseController
         }
 
         $user = User::get();
+        $avatarFile = $this->request->getFile('avatar');
         $displayName = $this->request->getVar('display_name');
         $bio = $this->request->getVar('bio');
 
@@ -288,21 +292,29 @@ class ApiController extends BaseController
         }
 
         $profileModel = model(ProfileModel::class);
-
         $profile = $user->getProfile();
 
         if ($profile == null) {
           $profile = Profile::create($user->id, $displayName, null, $bio);
-          $profileModel->insert($profile);
         } else {
           $profile->display_name = $displayName;
           $profile->bio = $bio;
+        }
 
-          if ($profile->hasChanged()) {
-            $profileModel->save($profile);
-          }
+        if ($avatarFile->getError() == UPLOAD_ERR_OK) {
+          $profile->uploadAvatar($avatarFile);
+        }
+
+        if ($profile->hasChanged()) {
+          $profileModel->save($profile);
         }
         
+        if ($initProfile) {
+          session()->set('initProfile');
+          session()->set('redirectUrl');
+          return redirect()->to($redirectUrl);
+        }
+
         return redirect()->to("/profile/{$user->username}");
     }
 }

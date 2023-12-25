@@ -2,15 +2,16 @@
 
 use App\Cells\ProfileHeaderCell;
 use App\Cells\ProfileUsernameCell;
+use App\Entities\Profile;
 use App\Entities\User;
 
 require __DIR__ . '/../_types.php';
 
 /**
  * @var User $user
+ * @var Profile $profile
  */
 
-$profile = $user->getProfile();
 $following = $user->getFollowingCount();
 $followers = $user->getFollowerCount();
 $followed = $user->isFollowedBy(user_id());

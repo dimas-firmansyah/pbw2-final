@@ -7,6 +7,7 @@ use App\Entities\User;
 
 /**
  * @var string[] $error
+ * @var bool $initProfile
  */
 
 $user = User::get();
@@ -23,7 +24,7 @@ $profile = $user->getProfile();
 
 
 <?php $view->section('slot');?>
-<?=ProfileHeaderCell::m($profile->display_name ?? 'Setup Profile')?>
+<?=ProfileHeaderCell::m($profile->display_name ?? 'Setup Profile', !$initProfile)?>
 
 <div class="c-banner-picture border-bottom"></div>
 <div class="c-avatar-holder">
@@ -34,7 +35,7 @@ $profile = $user->getProfile();
 
 <form action="/api/edit_profile" method="post" enctype="multipart/form-data">
   <?=csrf_field();?>
-  <input type="file" id="avatar" accept=".png, .jpg, .jpeg" hidden>
+  <input type="file" id="avatar" name="avatar" accept=".png, .jpg, .jpeg" hidden>
 
   <div class="p-3">
     <div class="mb-3">

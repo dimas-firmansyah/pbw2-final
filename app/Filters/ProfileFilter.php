@@ -31,6 +31,8 @@ class ProfileFilter implements FilterInterface
         }
 
         if (logged_in() && User::get()->getProfile() == null) {
+            session()->set('initProfile', true);
+            session()->set('redirectUrl', current_url());
             return redirect()->to('/settings/profile');
         }
     }
