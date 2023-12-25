@@ -14,6 +14,7 @@
 # ENVIRONMENT
 #--------------------------------------------------------------------
 
+SITE_TITLE = ES2
 # CI_ENVIRONMENT = production
 # FEAT_EXPORT_CONNECTIONS = 1
 

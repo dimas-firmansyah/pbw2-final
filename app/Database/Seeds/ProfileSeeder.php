@@ -2,6 +2,7 @@
 
 namespace App\Database\Seeds;
 
+use App\Entities\Profile;
 use App\Entities\User;
 use App\Models\ProfileModel;
 use App\Models\UserModel;
@@ -28,9 +29,8 @@ class ProfileSeeder extends Seeder
             $tempPath = '../writable/uploads/avatar_seed';
             write_file($tempPath, file_get_contents($avatarUrl));
 
-            $profile = $user->getProfile();
+            $profile = Profile::create($user->id, $faker->name(), null, $faker->text(160));
             $profile->uploadAvatar(new File($tempPath));
-            $profile->bio = $faker->text(160);
             model(ProfileModel::class)->save($profile);
         }
     }
