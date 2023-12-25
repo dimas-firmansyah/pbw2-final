@@ -26,7 +26,7 @@ class ProfileFilter implements FilterInterface
      */
     public function before(RequestInterface $request, $arguments = null)
     {
-        if (url_is('/settings/profile') || url_is('/api/edit_profile')) {
+        if (url_is('/settings/profile') || url_is('/api/edit_profile') || url_is('/logout')) {
             return;
         }
 
