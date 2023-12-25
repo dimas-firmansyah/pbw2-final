@@ -18,7 +18,7 @@
     translate: 1rem -50%;
     overflow: hidden;
 
-    background-image: url("/assets/media/noavatar.svg");
+    background-image: url("/img/noavatar.svg");
     background-position: center;
     background-repeat: no-repeat;
     background-size: auto 100%;

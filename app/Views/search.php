@@ -22,7 +22,7 @@ require __DIR__ . '/_types.php';
 <div class="input-group p-3 border-bottom sticky-top bg-light">
   <span class="input-group-text"><i class="fa-solid fa-fw fa-search"></i></span>
   <input type="text" class="form-control" placeholder="Search Profiles" id="search-input"
-         aria-label="Search Profiles">
+         aria-label="Search Profiles" autofocus>
 </div>
 
 <div class="d-flex flex-column" id="search-result-container"></div>

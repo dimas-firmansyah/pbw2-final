@@ -28,8 +28,9 @@ $profile = $user->getProfile();
 
 <div class="c-banner-picture border-bottom"></div>
 <div class="c-avatar-holder">
-  <button class="c-avatar p-0" id="avatar-button">
+  <button class="c-avatar p-0 fs-2 text-white" id="avatar-button">
     <img src="<?=$profile?->getAvatarUrl()?>" alt="">
+    <i class="fa-regular fa-image fa-2xl fa-fade position-absolute top-50 start-50 translate-middle"></i>
   </button>
 </div>
 
