@@ -12,6 +12,7 @@
     "require": {
         "php": "^7.4 || ^8.0",
         "codeigniter4/framework": "^4.0",
+        "mpdf/mpdf": "^8.2",
         "mpdf/qrcode": "^1.2",
         "myth/auth": "^1.2"
     },

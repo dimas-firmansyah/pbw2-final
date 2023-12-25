@@ -6,6 +6,7 @@ use App\Controllers\BaseController;
 use App\Models\StatusModel;
 use App\Models\UserModel;
 use CodeIgniter\Exceptions\PageNotFoundException;
+use Mpdf\Mpdf;
 
 class ViewController extends BaseController
 {
@@ -104,5 +105,29 @@ class ViewController extends BaseController
     public function followers(string $username)
     {
         return $this->_connection($username, false);
+    }
+
+    public function export_connections(string $username)
+    {
+        $user = model(UserModel::class)
+            ->where('username', $username)
+            ->first();
+
+        $profile = $user?->getProfile();
+
+        if ($profile == null) {
+            throw PageNotFoundException::forPageNotFound('Unknown Profile');
+        }
+
+        $html = view('profile/export_connections', [
+            'user'    => $user,
+            'profile' => $profile,
+        ]);
+
+        $this->response->setContentType('application/pdf');
+
+        $mpdf = new Mpdf();
+        $mpdf->WriteHTML($html);
+        $mpdf->OutputHttpInline();
     }
 }

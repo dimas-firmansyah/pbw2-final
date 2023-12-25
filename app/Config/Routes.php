@@ -16,6 +16,7 @@ $views = [
     'profile/(:segment)'           => 'profile/$1',
     'profile/(:segment)/following' => 'following/$1',
     'profile/(:segment)/followers' => 'followers/$1',
+    'profile/(:segment)/export'    => 'export_connections/$1',
 ];
 
 $api = [
